@@ -60,12 +60,18 @@ public class SwerveModule {
 
     public SwerveModulePosition getModulePosition(){
         return new SwerveModulePosition(speed.getPosition(), Rotation2d.fromDegrees(encoder.getAbsolutePosition()));
-
-         
     }
 
     public double[] getTemperature() {
         return new double[] {speed.getTemperature(),angle.getTemperature()};
+    }
+
+    public CSP_Falcon getSpeedMotor() {
+        return speed;
+    }
+
+    public CSP_Falcon getAngleMotor() {
+        return angle;
     }
 }
 

@@ -1,5 +1,9 @@
 package frc.robot.subsystems.drivetrain;
 
+import java.util.List;
+
+import com.ctre.phoenix.music.Orchestra;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.drivetrain;
@@ -12,16 +16,30 @@ public class Drivetrain extends SubsystemBase {
     return instance;
   }
 
-  private SwerveModule frontLeft = new SwerveModule(1, 2, 3, 0);
+  private SwerveModule frontRight = new SwerveModule(1, 2, 21, 0);
+  private SwerveModule frontLeft = new SwerveModule(3, 4, 22, 0);
+  private SwerveModule backLeft = new SwerveModule(5, 6, 23, 0);
+  private SwerveModule backRight = new SwerveModule(7, 8, 24, 0);
+
+  private Orchestra orchestra = new Orchestra(
+    List.of(frontRight.getSpeedMotor(), frontRight.getAngleMotor(), 
+            frontLeft.getSpeedMotor(), frontLeft.getAngleMotor(), 
+            backLeft.getSpeedMotor(), backLeft.getAngleMotor(), 
+            backRight.getSpeedMotor(), backRight.getAngleMotor())
+    );
+
 
   private Drivetrain() {
-
+    orchestra.loadMusic("cbat.chrp");
   }
 
-@Override
-public void periodic() {
-  SmartDashboard.putNumber("Speed Motor Velocity", frontLeft.getModuleState().speedMetersPerSecond);
-  SmartDashboard.putNumber("Speed Motor Angle", frontLeft.getModuleState().angle.getDegrees());
-}
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("Speed Motor Velocity", frontLeft.getModuleState().speedMetersPerSecond);
+    SmartDashboard.putNumber("Speed Motor Angle", frontLeft.getModuleState().angle.getDegrees());
+  }
 
+  public void playMusic() {
+    orchestra.play();
+  }
 }
